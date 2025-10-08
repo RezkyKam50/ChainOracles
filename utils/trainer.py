@@ -1,7 +1,7 @@
 from xgboost import XGBRegressor
 from sklearn.preprocessing import RobustScaler
 from sklearn.model_selection import train_test_split
-import cupy as cp, cudf
+import cupy as cp, cudf, pickle, joblib
 from sklearn.metrics import r2_score, root_mean_squared_error, mean_absolute_error
 
 
@@ -32,7 +32,7 @@ model = XGBRegressor(
     tree_method="hist",
     device="cuda"
 )
- 
+
 model.fit(X_train_gpu, y_train_gpu)
  
 y_pred_gpu = model.predict(X_test_gpu)
@@ -47,6 +47,8 @@ mae = mean_absolute_error(y_test_cpu, y_pred_cpu)
 print("R² score:", r2)
 print("RMSE score:", rmse)
 print("MAE score:", mae)
+
+
 
 
 """
