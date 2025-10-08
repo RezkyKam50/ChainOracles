@@ -2,3 +2,4 @@ datasets/
 datasets/*.csv
 cufile.log
 *.log
+__pycache__
