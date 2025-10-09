@@ -28,33 +28,6 @@ def cyclical_encoding(df):
 
     return df 
 
-def statistical(df):
-    df['rolling_mean_5'] = df['Close'].rolling(5).mean()
-    df['rolling_std_5'] = df['Close'].rolling(5).std()
-    df['rolling_min_5'] = df['Close'].rolling(5).min()
-    df['rolling_max_5'] = df['Close'].rolling(5).max()
-    
-    df['z_score_5'] = (df['Close'] - df['rolling_mean_5']) / df['rolling_std_5']
-    df['price_position'] = (df['Close'] - df['rolling_min_5']) / (df['rolling_max_5'] - df['rolling_min_5'])
-
-    df['volatility_5'] = df['Close'].rolling(5).std() / df['Close'].rolling(5).mean()
-    df['volatility_10'] = df['Close'].rolling(10).std() / df['Close'].rolling(10).mean()
-    
-    return df
-
-def lag_features(df):
-    for lag in [3, 5, 10]:
-        df[f'close_lag_{lag}'] = df['Close'].shift(lag)
-        df[f'volume_lag_{lag}'] = df['Volume'].shift(lag)
-
-    df['return_3'] = df['Close'].pct_change(3)
-    df['return_5'] = df['Close'].pct_change(5)
-    df['return_10'] = df['Close'].pct_change(19)
- 
-    df['return_volatility_5'] = df['return_1'].rolling(5).std()
-    df['return_volatility_10'] = df['return_1'].rolling(10).std()
-    
-    return df
 
 
 

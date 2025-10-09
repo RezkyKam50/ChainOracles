@@ -12,9 +12,7 @@ from cuml.metrics import (
 )
 from feature_engineering import (
     intermediate,
-    cyclical_encoding,
-    statistical,
-    lag_features
+    cyclical_encoding
 )
 
 
@@ -34,8 +32,6 @@ def feature_engineering(df):
 
     df = intermediate(df)
     df = cyclical_encoding(df)
-    df = statistical(df)
-    df = lag_features(df)
 
     return df.dropna().astype({col: 'float32' for col in df.columns if col != 'Timestamp'})
 
@@ -52,9 +48,10 @@ split_idx = int(len(df) * 0.8)
 X_train, X_test = X.iloc[:split_idx], X.iloc[split_idx:]
 y_train, y_test = y.iloc[:split_idx], y.iloc[split_idx:]
 
-scaler = MinMaxScaler()
+scaler = RobustScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
+ 
  
 X_train_gpu = X_train_scaled.to_cupy()
 X_test_gpu = X_test_scaled.to_cupy()
@@ -63,7 +60,7 @@ y_test_gpu = y_test.to_cupy()
 
  
 model = XGBRegressor(
-    n_estimators=800,
+    n_estimators=1000,
     max_depth=14,
     learning_rate=0.09,
     subsample=0.8,
