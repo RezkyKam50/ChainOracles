@@ -76,8 +76,6 @@ if __name__ == "__main__":
     X, y                                                = prepare_xy(df)
     X_train_gpu, X_test_gpu, y_train_gpu, y_test_gpu    = trainsplit(X, y, df)
  
-
-    # Initialize XGBoost classifier
     num_estimators_per_batch = 150
     model = XGBRegressor(
         n_estimators=num_estimators_per_batch,
@@ -96,12 +94,10 @@ if __name__ == "__main__":
     )
     model.fit(X_train_gpu, y_train_gpu)
 
-    # Train model in batches of rounds
     num_batches = 20
     for i in range(num_batches):
         model.fit(X_train_gpu, y_train_gpu, xgb_model=model.get_booster())
 
-        # Make predictions on train and test data
         y_train_pred = model.predict(X_train_gpu)
         y_pred_gpu = model.predict(X_test_gpu)
 
