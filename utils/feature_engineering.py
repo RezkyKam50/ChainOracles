@@ -28,6 +28,15 @@ def cyclical_encoding(df):
 
     return df 
 
+def lag_features(df, lags=[1, 2, 3, 5, 10]):
+    for lag in lags:
+        df[f'close_lag_{lag}'] = df['Close'].shift(lag)
+        df[f'open_lag_{lag}'] = df['Open'].shift(lag)
+        df[f'volume_lag_{lag}'] = df['Volume'].shift(lag)
+
+    return df
+
+
 
 
 

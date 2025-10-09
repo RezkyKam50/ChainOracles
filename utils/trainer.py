@@ -12,7 +12,8 @@ from cuml.metrics import (
 )
 from feature_engineering import (
     intermediate,
-    cyclical_encoding
+    cyclical_encoding,
+    lag_features
 )
 
 
@@ -38,12 +39,13 @@ def preprocess_sort(df):
 def feature_engineering(df):
     df = intermediate(df)
     df = cyclical_encoding(df)
+    df = lag_features(df)
+     
 
     # reduce precision from f64 to f32 for compute efficiency (XGB & RAPIDS doesn't support f16 yet)
     return df.dropna().astype({col: 'float32' for col in df.columns if col != 'Timestamp'})
 
 def prepare_xy(df):
-    df = load_df()
     df = preprocess_sort(df)
     df = feature_engineering(df)
     print(df.dtypes)
