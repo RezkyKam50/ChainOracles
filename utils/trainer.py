@@ -1,6 +1,6 @@
 from xgboost import XGBRegressor
 import cupy as cp, cudf, pickle, joblib, glob, os
-from sklearn.metrics import root_mean_squared_error
+import math
 from cuml.preprocessing import (
     RobustScaler, 
     MinMaxScaler
@@ -16,7 +16,7 @@ from feature_engineering import (
     lag_features
 )
 
-
+math.sqrt()
 def load_df():
     revision = 1
     parquet_path = f"./datasets/BTC_REV_{revision}.parquet"
@@ -110,9 +110,9 @@ if __name__ == "__main__":
         y_test_cpu = cp.asnumpy(y_test_gpu)
 
         r2 = r2_score(y_test_cpu, y_pred_cpu)
-        rmse = root_mean_squared_error(y_test_cpu, y_pred_cpu)
         mae = mean_absolute_error(y_test_cpu, y_pred_cpu)
         mse = mean_squared_error(y_test_cpu, y_pred_cpu)
+        rmse = math.sqrt(mse)
 
         print("R² score:", r2)
         print("RMSE score:", rmse)
