@@ -1,8 +1,9 @@
-import cupy as cp, pandas as pd, numpy as np, cudf
+import cupy as cp, cudf
 
-
+# GPU accel. FE
 # Timestamp, Open, Close, High, Low 
 # Target (y) : Open
+
 
 def intermediate(df):
     df['price_change'] = df['Close'] - df['Open']
@@ -31,8 +32,9 @@ def cyclical_encoding(df):
 def lag_features(df, lags=[1, 2, 3, 5, 10]):
     for lag in lags:
         df[f'close_lag_{lag}'] = df['Close'].shift(lag)
-        df[f'open_lag_{lag}'] = df['Open'].shift(lag)
         df[f'volume_lag_{lag}'] = df['Volume'].shift(lag)
+        df[f'high_lag_{lag}'] = df['High'].shift(lag)
+        df[f'low_lag_{lag}'] = df['Low'].shift(lag)
 
     return df
 

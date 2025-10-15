@@ -24,7 +24,10 @@ def load_df():
         df = cudf.read_parquet(parquet_path)
     else:
         csv_files = glob.glob("./datasets/*.csv")
-        df = cudf.concat([cudf.read_csv(f) for f in csv_files], ignore_index=True)
+        df = cudf.concat(
+            [cudf.read_csv(f) for f in csv_files], 
+            ignore_index=True
+            )
         df.to_parquet(parquet_path)
 
     return df, revision
