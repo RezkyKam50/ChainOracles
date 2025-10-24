@@ -1,0 +1,8 @@
+GPU: RTX4070ADALOVELACE
+
+Summary: 
+Operation                 Pandas (s)   cuDF (s)     Speedup   
+------------------------------------------------------------
+Data Loading              0.1539       0.7602       0.20237703961753603
+Preprocessing Sort        0.4918       0.0703       6.994490292743461
+Feature Engineering       3.6668       0.1796       20.4215905363974
